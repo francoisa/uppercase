@@ -1,0 +1,17 @@
+*** Settings ***
+Library  String
+Library  Process
+Library  Collections
+
+*** Test Cases ***
+One String
+  Check Case Of Word  a  A
+  
+*** Keywords ***
+Check Case Of Word
+  [Arguments]          ${WORD}  ${UPCASE}
+  ${Result}=           Run Process  java  -jar  target\\uppercase-1.0-SNAPSHOT-jar-with-dependencies.jar  ${WORD}
+  @{LINES}=            Split String  ${Result.stdout}  |
+  Log List             ${LINES}
+  Should Be Uppercase  @{LINES}[0]
+    
